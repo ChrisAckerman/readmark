@@ -1,0 +1,12 @@
+<article class="markdown-body">
+	<h1><span class="fa fa-list"></span> Directory Listing</h1>
+	<nav>
+		<p class="parent" title="Move up one directory."><!--
+		-->{{#dir}}<a href="{{parent}}"><span class="fa fa-arrow-circle-left"></span>{{dir}}</a>{{/dir}}<!--
+		-->{{^dir}}<span class="fa fa-star-o"></span>/{{/dir}}<!--
+		--></p>
+		{{#files}}
+		<p class="link"><a href="{{href}}"><span class="fa {{#icon}}fa-{{&.}}{{/icon}}"></span>{{name}}</a></p>
+		{{/files}}
+	</nav>
+</article>

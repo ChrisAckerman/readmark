@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>{{title}}</title>
+	{{>styles}}
+</head>
+<body>
+	<div class="content">
+		{{>header}}
+		{{#ls}}
+		<section class="ls">{{>ls}}</section>
+		{{/ls}}
+		{{#modules}}
+		<section class="modules">{{>modules}}</section>
+		{{/modules}}
+		{{#error}}
+		<section class="error">{{>error}}</section>
+		{{/error}}
+		{{#markdown}}
+		<section class="markdown">{{>markdown}}</section>
+		{{/markdown}}
+		{{#text}}
+		<section class="text">{{>text}}</section>
+		{{/text}}
+		{{#credits}}
+		<section class="credits">{{>credits}}</section>
+		{{/credits}}
+		{{>footer}}
+	</div>
+	{{>scripts}}
+</body>
+</html>

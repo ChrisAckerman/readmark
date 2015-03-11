@@ -1,0 +1,13 @@
+<link rel="stylesheet" type="text/css" href="/readmark/less/reset.less">
+<link rel="stylesheet" type="text/css" href="/readmark/less/base.less">
+<link rel="stylesheet" type="text/css" href="/readmark/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/readmark/github-markdown.css">
+<link rel="stylesheet" type="text/css" href="/readmark/highlight/styles/github.css">
+{{#styles}}
+{{#href}}
+<link rel="stylesheet" type="text/css" href="{{.}}">
+{{/href}}
+{{#text}}
+<style type="text/css">{{&.}}</style>
+{{/text}}
+{{/styles}}

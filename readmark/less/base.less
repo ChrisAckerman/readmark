@@ -1,0 +1,187 @@
+@background-color: #f0f0f0;
+@border-color: #ddd;
+@ui-color: #666;
+@git-color: #333;
+
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	background-color: #f0f0f0;
+}
+
+.bordered(@widths: 0 1px 1px 1px)
+{
+	background-color: #fff;
+	border-color: @border-color;
+	border-style: solid;
+	border-width: @widths;
+}
+
+.content {
+	position: relative;
+	min-width: 260px;
+	max-width: 852px;
+	margin: 0 auto;
+
+	section {
+		.bordered;
+
+		box-sizing: border-box;
+		padding: 30px;
+	}
+}
+
+.page-header {
+	position: relative;
+	margin: 0 1px;
+
+	.right {
+		float: right;
+
+		.outer {
+			position: fixed;
+			z-index: 1;
+			width: 0;
+
+			.inner {
+				.bordered;
+
+				position: absolute;
+				right: 30px;
+				padding: 2px 8px;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	.fa {
+		padding: 3px;
+		font-size: 19px;
+		color: @ui-color;
+	}
+
+	.button {
+		cursor: pointer;
+
+		&:hover {
+			color: #000;
+		}
+	}
+}
+
+.page-footer {
+	text-align: center;
+	font-size: 85%;
+	padding: 30px 0;
+	color: @ui-color;
+
+	ul, li {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+
+	ul {
+		list-style-type: none;
+	}
+
+	li + li::before {
+		content: '•';
+		padding: 0 0.75em;
+	}
+
+	a {
+		font-weight: bold;
+		text-decoration: none;
+		text-transform: uppercase;
+		color: inherit;
+
+		&:hover {
+			color: #000;
+		}
+	}
+}
+
+.ls nav {
+	p {
+		margin: 0 0 0 1em;
+		padding: 0;
+	}
+
+	.dir {
+		font-weight: bold;
+	}
+
+	.link, .empty {
+		margin-left: 2em;
+	}
+
+	.fa {
+		font-size: 14px;
+		vertical-align: 1px;
+		padding-right: 8px;
+	}
+}
+
+.vertical-rule {
+	.bordered(0 0 0 1px);
+
+	&:after {
+		content: ' '
+	}
+
+	display: inline-block;
+	width: 0;
+	margin: 0 8px;
+	white-space: pre;
+	cursor: default;
+}
+
+.markdown-body {
+	a .fa {
+		color: @git-color;
+	}
+}
+
+.fa {
+	cursor: default;
+	text-decoration: none !important;
+	font-weight: normal !important;
+}
+
+#status {
+	display: none;
+
+	.notice {
+		color: #44f;
+	}
+
+	.success {
+		color: #3c3;
+	}
+
+	.warning {
+		color: #fa3;
+	}
+
+	.error {
+		color: #f33;
+	}
+}
+
+@media only screen and (max-width: 852px) {
+	.content {
+		max-width: 850px;
+
+		& section {
+			border-width: 0 0 1px 0;
+		}
+	}
+}

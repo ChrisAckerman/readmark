@@ -1,0 +1,9 @@
+<article class="markdown-body">
+	<h1>Error{{#code}}: {{code}}{{/code}}</h1>
+	{{#reason}}
+	<p>{{.}}</p>
+	{{/reason}}
+	{{^reason}}
+	<p>The server was unable to complete your request.</p>
+	{{/reason}}
+</article>

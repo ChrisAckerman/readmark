@@ -1,0 +1,7 @@
+{
+	"node": true,
+	"eqnull": true,
+	"globals": {
+		"readmark": true
+	}
+}

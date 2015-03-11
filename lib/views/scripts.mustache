@@ -1,0 +1,12 @@
+<script type="application/javascript" src="/socket.io/socket.io.js"></script>
+<script type="application/javascript" src="/readmark/highlight/highlight.pack.js"></script>
+<script type="application/javascript" src="/readmark/js/base.js"></script>
+<script type="application/javascript" src="/readmark/js/live.js"></script>
+{{#scripts}}
+{{#src}}
+<script type="application/javascript" src="{{.}}"></script>
+{{/src}}
+{{#text}}
+<script type="application/javascript">{{&.}}</script>
+{{/text}}
+{{/scripts}}
