@@ -27,6 +27,7 @@ void function(){
 	{
 		if (readmark.live) {
 			readmark.live.innerHTML = html;
+			readmark.fixExternalLinks();
 			readmark.highlight();
 			readmark.updateHash();
 
@@ -37,15 +38,11 @@ void function(){
 	readmark.io.on('connect', function()
 	{
 		connected = true;
-
-		status('connect');
 	});
 
 	readmark.io.on('reconnect', function()
 	{
 		clearTimeout(reconnect_timeout);
-
-		connected = true;
 
 		readmark.io.emit('init', page, instance_key);
 
@@ -70,19 +67,11 @@ void function(){
 
 	readmark.io.emit('init', page, instance_key);
 
-	if (window.addEventListener) {
-		window.addEventListener('beforeunload', function()
-		{
-			navigating = true;
-			readmark.io.close();
-		});
-	} else {
-		window.onbeforeunload = function()
-		{
-			navigating = true;
-			readmark.io.close();
-		};
-	}
+	readmark.bindEvent(window, 'beforeunload', function()
+	{
+		navigating = true;
+		readmark.io.close();
+	});
 
 	function status(type)
 	{

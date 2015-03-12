@@ -2,8 +2,21 @@ void function(){
 	"use strict";
 
 	window.readmark = {
+		find: function(el)
+		{
+			if (typeof el === 'string') {
+				el = document.querySelectorAll(el);
+			} else if (!(el instanceof Array)) {
+				el = [el];
+			}
+
+			return el;
+		},
+
 		getTop: function(el)
 		{
+			el = readmark.find(el)[0];
+
 			var value = 0;
 
 			while (el) {
@@ -16,22 +29,58 @@ void function(){
 
 		triggerEvent: function(el, name)
 		{
-			var event; // The custom event that will be created
+			el = readmark.find(el);
 
-			if (document.createEvent) {
-				event = document.createEvent("HTMLEvents");
-				event.initEvent(name, true, true);
+			var ev; // The custom event that will be created
+
+			if (typeof name === 'string') {
+				if (document.createEvent) {
+					ev = document.createEvent("HTMLEvents");
+					ev.initEvent(name, true, true);
+				} else {
+					ev = document.createEventObject();
+					ev.eventType = name;
+				}
 			} else {
-				event = document.createEventObject();
-				event.eventType = name;
+				ev = name;
 			}
 
-			event.eventName = name;
+			ev.eventName = name;
 
-			if (document.createEvent) {
-				return el.dispatchEvent(event);
-			} else {
-				return el.fireEvent("on" + event.eventType, event);
+			for (var i = 0, max = el.length; i < max; ++i) {
+				if (document.createEvent) {
+					canceled = !el[i].dispatchEvent(ev) || canceled;
+				} else {
+					canceled = !el[i].fireEvent("on" + ev.eventType, ev) || canceled;
+				}
+			}
+
+			return canceled;
+		},
+
+		bindEvent: function(el, name, callback)
+		{
+			if (typeof window.addEventListener === 'undefined') return;
+
+			el = readmark.find(el);
+
+			for (var i = 0, max = el.length; i < max; ++i) {
+				el[i].addEventListener(name, callback);
+			}
+		},
+
+		unbindEvent: function(el, name, callback)
+		{
+			if (typeof window.removeEventListener === 'undefined') return;
+
+			el = readmark.find(el);
+
+			for (var i = 0, max = el.length; i < max; ++i) {
+				if (callback) {
+					el[i].removeEventListener(name, callback);
+				} else {
+					el[i].removeEventListener(name);
+				}
 			}
 		},
 
@@ -79,14 +128,58 @@ void function(){
 			}
 		},
 
-		highlight: function(el)
+		fixExternalLinks: function()
+		{
+			var links = readmark.find('a[href]');
+
+			for (var i = 0, max = links.length; i < max; ++i) {
+				if (links[i].target) continue;
+				if (!(/^([a-z]+:)?\/{2}/i).test(links[i].getAttribute('href'))) continue;
+
+				links[i].target = '_blank';
+			}
+		},
+
+		highlight: function()
 		{
 			if (typeof hljs === 'undefined') return;
 
-			var blocks = document.querySelectorAll('pre code');
+			var blocks = readmark.find('pre code');
 
 			for (var i = 0, max = blocks.length; i < max; ++i) {
 				hljs.highlightBlock(blocks[i]);
+			}
+		},
+
+		home: function()
+		{
+			if (!document.getElementById('home')) return;
+			
+			window.location = '/';
+		},
+
+		raw: function()
+		{
+			if (!document.getElementById('raw')) return;
+
+			window.location = '?raw';
+		},
+
+		nodeModules: function()
+		{
+			if (!document.getElementById('modules')) return;
+
+			window.location = './?modules';
+		},
+
+		toggleList: function()
+		{
+			if (!document.getElementById('ls')) return;
+
+			if (window.location.search === '?ls') {
+				window.location = './';
+			} else {
+				window.location = './?ls';
 			}
 		}
 	};
@@ -102,7 +195,7 @@ void function(){
 			{
 				delete readmark.updateHash.timeout;
 
-				var h = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+				var h = readmark.find('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
 				var id = '';
 				var scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
 
@@ -123,19 +216,39 @@ void function(){
 		readmark.updateHash = function() {};
 	}
 
-	if (window.addEventListener) {
-		window.addEventListener('scroll', readmark.updateHash);
-		window.addEventListener('click', function(event)
-		{
-			if (event.target.id === 'ls') {
-				if (window.location.search === '?ls') {
-					window.location = './';
-				} else {
-					window.location = './?ls';
-				}
-			}
-		});
-	}
+	readmark.bindEvent(window, 'scroll', readmark.updateHash);
 
+	readmark.bindEvent(window, 'click', function(ev)
+	{
+		ev = ev || window.event;
+		if (ev.target.id === 'ls') {
+			readmark.toggleList();
+			ev.preventDefault();
+		}
+	});
+
+	readmark.bindEvent(window, 'keydown', function(ev)
+	{
+		ev = ev || window.event;
+
+		var c = ev.char ? ev.char : (ev.key ? ev.key : String.fromCharCode(ev.charCode || ev.which || ev.keyCode));
+		//c = c.toLowerCase();
+
+		if (c === 'h') {
+			readmark.home();
+		} else if (c === 'n') {
+			readmark.nodeModules();
+		} else if (c === 'r') {
+			readmark.raw();
+		} else if (c === 'l') {
+			readmark.toggleList();
+		} else {
+			return;
+		}
+
+		ev.preventDefault();
+	});
+
+	readmark.fixExternalLinks();
 	readmark.highlight();
 }();

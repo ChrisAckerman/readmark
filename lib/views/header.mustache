@@ -3,12 +3,15 @@
 		<div class="outer">
 			<div class="inner"><!--
 				--><span id="status"><span class="icons"></span><span class="vertical-rule"></span></span><!--
-				--><a class="button fa fa-home" href="/" title="Home"></a><!--
+				--><a id="home" class="button fa fa-home" href="/" title="Home (h)"></a><!--
 				-->{{#node_modules}}<!--
-					--><a class="button fa fa-gear" href="/?modules" title="Node Modules"></a><!--
+					--><a id="modules" class="button fa fa-gear" href="/?modules" title="Node Modules (n)"></a><!--
 				-->{{/node_modules}}<!--
+				-->{{^generated}}<!--
+					--><a id="raw" class="button fa fa-arrow-circle-o-down" href="?raw" title="View Raw File (r)"></a><!--
+				-->{{/generated}}<!--
 				--><span class="vertical-rule"></span><!--
-				--><span id="ls" class="button fa fa-list" title="Toggle Directory Listing"></span><!--
+				--><a id="ls" class="button fa fa-list" href="./?ls" title="Toggle Directory Listing (l)"></a><!--
 			--></div>
 		</div>
 	</div>
