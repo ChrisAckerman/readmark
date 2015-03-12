@@ -1,7 +1,7 @@
 {
   "name": "readmark",
-  "version": "1.0.0",
-  "description": "Preview rendered markdown files served locally.",
+  "version": "1.0.1",
+  "description": "View markdown documents in your browser.",
   "main": "index.js",
   "bin": {
     "readmark": "./index.js"

@@ -4,6 +4,8 @@ View markdown documents in your browser.
 
 Live updates, Github styling, syntax highlighting, and file browsing.
 
+_Designed for local use only._
+
 ## Install
 
 ```sh
@@ -31,6 +33,9 @@ browser window for you to the home url.
 Any changes to markdown files will be automatically reflected in the browser
 window.
 
+File watchers are limited to the files currently open in your browser as tracked
+by Socket.io connections.
+
 ### Syntax Highlighting
 
 Fenced code blocks are highlighted using
@@ -38,7 +43,7 @@ Fenced code blocks are highlighted using
 
 ### Directory Listing
 
-Browse directory listings.
+Browse directory listings rooted at the working directory.
 
 Shows the listing in the current path. You can navigate deeper or rise up the
 tree to the working directory. Clicking when already viewing the directory
@@ -89,6 +94,13 @@ The following file extensions are assumed to contain markdown:
 Plain text files are served in an HTML page with the text embedded in a `<pre>`
 tag. Files without an extension are interpreted as plain text.
 
+All other files will be served as is with their default mime-type.
+
+### No Internet Connection Required
+
+No CDNs are used to host dependencies, so operation should not be affected by
+the lack of an internet connection.
+
 ## Customization
 
 I didn't go in depth with customization options. This was intended for my
@@ -126,3 +138,7 @@ server.
 The "/readmark/" path is reserved for serving content built-in to the Readmark
 module. If for some reason the working directory also has a "readmark"
 sub-directory, it will not be accessible.
+
+## License
+
+[MIT](/LICENSE)
