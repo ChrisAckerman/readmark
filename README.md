@@ -6,7 +6,7 @@ Live updates, Github styling, syntax highlighting, and file browsing.
 
 _Designed for local use only._
 
-## Install
+## Install()
 
 ```sh
 npm install -g readmark
